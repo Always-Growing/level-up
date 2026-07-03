@@ -47,12 +47,36 @@ sudo dnf copr enable solopasha/hyprland -y
 
 echo "==> 2. Installing Packages"
 PACKAGES=(
-    hyprland hyprlock hypridle swww hyprland-qt-support
-    hyprland-guiutils
-    alacritty btop fastfetch gimp network-manager-applet
-    pavucontrol waybar wofi wl-clipboard timeshift virt-manager
-    libdisplay-info seatd libseat-devel
-    grim slurp qt5ct qt6ct
+    # Core system / seat / display stack
+    seatd libseat-devel libdisplay-info
+
+    # Hyprland core + session tooling
+    hyprland hyprland-qt-support hyprland-guiutils
+    hyprlock hypridle swww uwsm
+
+    # XDG / Wayland integration
+    xdg-desktop-portal xdg-desktop-portal-hyprland
+
+    # Audio stack (PipeWire)
+    pipewire wireplumber pavucontrol
+
+    # Network
+    network-manager-applet
+
+    # Terminal / shell utilities
+    alacritty btop fastfetch wl-clipboard
+
+    # Desktop / bar / launcher
+    waybar wofi
+
+    # Screenshot / screen tools
+    grim slurp
+
+    # Graphics / apps
+    gimp virt-manager timeshift
+
+    # Qt theming support
+    qt5ct qt6ct
 )
 
 sudo dnf install -y "${PACKAGES[@]}" --allowerasing --skip-broken --skip-unavailable
@@ -152,7 +176,7 @@ sudo bash -c "cat > '$DESKTOP_ENTRY'" <<EOF
 [Desktop Entry]
 Name=Level-Up
 Comment=Launch Level-Up Hyprland session
-Exec=start-hyprland
+Exec=start-hyprland-uswm
 Type=Application
 DesktopNames=Hyprland
 EOF
